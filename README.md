@@ -1,4 +1,5 @@
 // 更新奖励的情况
+
     function updateReward() private  {
         uint256 GuessBettorNums = (guessListMap[hgmGlobalId]).length;
         for(uint256 i = 0; i < GuessBettorNums; i++) {
@@ -219,6 +220,7 @@
     }
 
 // 投注
+
     function createBettor(uint256 amount, uint256 betType) public returns (bool) {
         // 检查投注类别是否正确
         require(_betType >= uint256(BettorType.Big) && _betType <= uint256(BettorType.BaccaratSame), "createBettor: invalid bettor type, please bette repeat");
@@ -226,7 +228,6 @@
         require(_amount >= 10000000, "createBettor: bette amount must more than 10U");
         // 检查投注者的余额是否足够
         require(betteToken.balanceOf(msg.sender) >= _amount, "createBettor: bettor account balance not enough");
-
         if (block.number > endBlock) {
             //结束当前期游戏
             endHashGame();
