@@ -1,4 +1,4 @@
-// 更新奖励的情况
+// Reward status
 
     function updateReward() private  {
         uint256 GuessBettorNums = (guessListMap[hgmGlobalId]).length;
@@ -219,17 +219,17 @@
         }
     }
 
-// 投注
+// Bet
 
     function createBettor(uint256 amount, uint256 betType) public returns (bool) {
-        // 检查投注类别是否正确
+        // Check if the bet type is true or false 
         require(_betType >= uint256(BettorType.Big) && _betType <= uint256(BettorType.BaccaratSame), "createBettor: invalid bettor type, please bette repeat");
-        // 最少投资金额 10U
+        // The lowest bet is 10U
         require(_amount >= 10000000, "createBettor: bette amount must more than 10U");
-        // 检查投注者的余额是否足够
+        // Check if the user’s balance is available
         require(betteToken.balanceOf(msg.sender) >= _amount, "createBettor: bettor account balance not enough");
         if (block.number > endBlock) {
-            //结束当前期游戏
+            // End the current game
             endHashGame();
         }
         GuessBettor memory gb = GuessBettor({
@@ -242,14 +242,14 @@
             PiointNum: _betType - 16,
             reWardVale: 0
         });
-        //玩家历史记录
+        // The users’ history records 
         guessListMap[hgmGlobalId].push(gb);
-        //玩家信息列表
+        // The list of users’ information 
         userInfo storage user = userInfoList[msg.sender];
         user.totalBetted = user.totalBetted + _amount;
-        //玩家下注记录
+        // The users’betting  records
         usersGuessListMap[msg.sender][hgmGlobalId].push(gb);
-        //当期下注总额
+        // The current total bet
         WinningResult storage currentWinningResult = WinningMap[hgmGlobalId];
         currentWinningResult.totalBetted = currentWinningResult.totalBetted + _amount;
         emit GuessBettorCreate(msg.sender, amount, betType, hgmGlobalId, gb.index);
